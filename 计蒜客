@@ -1,0 +1,687 @@
+/* 
+//线性表第k位调序 
+#include<iostream>
+using namespace std;
+int main() 
+{
+	int n,k;
+	int i=0,j=0; 
+	cin>>n>>k;
+	int* array=new int[n];
+	int* new_array=new int[n];
+	for(i=0;i<n;i++)
+	{
+		cin>>array[i];
+	}	
+	for(i=k;i<n;i++)
+	{
+		new_array[i-k]=array[i];
+	}
+	for(i=n-k;i<n;i++)
+	{
+		new_array[i]=array[j];
+		j++;
+	}
+	cout<<new_array[0];
+	for(i=1;i<n;i++)
+	{
+		cout<<" "<<new_array[i];
+	}
+}
+*/
+/*
+//求交集 
+#include <iostream>
+using namespace std;
+int main()
+{
+	int l1=0,l2=0,i=0,j=0,k=0;
+	cin>>l1;
+	int* A=new int[l1];
+	for(i=0;i<l1;i++)
+	{
+		cin>>A[i];
+	} 
+	cin>>l2;
+	int* B=new int[l2];
+	for(i=0;i<l2;i++)
+	{
+		cin>>B[i];
+	}
+	for(i=0;i<l1;i++)
+	{
+		for(j=0;j<l2;j++)
+		{
+			if(A[i]==B[j])
+				{
+					k++;
+				}
+		}
+	}
+	int* C=new int[k];
+	cout<<k<<endl;
+	if(k!=0)
+	{
+		int m=0;
+		for(i=0;i<l1;i++)
+		{
+			for(j=0;j<l2;j++)
+			{
+				if(A[i]==B[j])
+					{
+						C[m]=A[i];
+						m++;
+					}
+			}
+		}
+		cout<<C[0];
+		for(i=1;i<k;i++)
+		{
+			cout<<" "<<C[i];
+		}
+	}
+}
+*/
+/*
+//单向链表转双向 
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct node
+	{
+		int data;
+		node* prior;
+		node* next;
+	}list2,*link;
+//双向链表 
+link Createlist2(int n)
+{
+	int i=0;
+	link h,p,r;
+	//h->data=0;
+	h=(link)malloc(sizeof(list2)); 
+	r=h;
+	for(i=0;i<n;i++)
+	{
+		p=(link)malloc(sizeof(list2));
+		cin>>p->data;
+		p->prior=r;
+		r->next=p;
+		r=p;
+	}
+	r->next=h->next;
+	h->next->prior=r;
+	return h;
+}
+int main()
+{
+	int l,m,i,j;
+	link p;
+	cin>>l;
+	p=Createlist2(l);
+	cin>>m;
+	while(p->data!=m)
+	{
+		p=p->next;
+	}
+	cout<<p->data;
+	for(j=1;j<l;j++)
+	{
+		p=p->prior;
+		cout<<" "<<p->data;
+	}
+} 
+*/
+/*
+//投简历之谁是最优秀的人 
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct node
+{
+	int data;
+	node* next;
+}list,*link;
+link Createlist(int n)
+{
+	link h,r,p;
+	int i;
+	h=(link)malloc(sizeof(list));
+	r=h;
+	for(i=0;i<n;i++)
+	{
+		p=(link)malloc(sizeof(list));
+		p->data=i+1;
+		r->next=p;
+		r=p;
+	}
+	r->next=NULL;
+	return h;
+}
+void Deletepoint(link p,int m)
+{
+	int i;
+	link pp;
+	for(i=0;i<m;i++)
+	{
+		pp=p;
+		p=p->next;
+	}
+	pp->next=p->next;
+	free(p);
+}
+int main()
+{
+	int N,M;
+	int i;
+	cin>>N;
+	link p=Createlist(N);
+	cin>>M;
+	int*a=new int[M];
+	for(i=0;i<M;i++)
+	{
+		cin>>a[i];
+		Deletepoint(p,a[i]);
+	}
+	for(i=0;i<(N-M+1)/2;i++)
+	{
+		p=p->next;
+	}
+	cout<<p->data;
+}
+*/
+/*
+//电话记录
+#include<iostream>
+#include<cstring>
+using namespace std;
+struct tel
+{
+	int type;
+	string number;
+};
+int main()
+{
+	tel array[10];
+	int i=0,j=0,r=0,s=0,t=0;  //不能省略成int i,j,r,s,t=0; 
+	string new_array[10][3]={"0","0","0","0","0","0","0","0","0","0",
+	"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+	for(i=0;i<10;i++)
+	{
+		cin>>array[i].type>>array[i].number;
+	}
+	for(i=0;i<10;i++)
+	{
+		switch(array[i].type)
+		{
+		case 0:
+			{
+				new_array[r][0]=array[i].number;
+				r++;
+				break; //非常重要！ 
+			}
+		case 1:
+			{
+				new_array[s][1]=array[i].number;
+				s++;
+				break;
+			}
+		case 2:
+			{
+				new_array[t][2]=array[i].number;
+				t++;
+				break;
+			}
+		}
+	}
+	for(i=0;i<10;i++)
+	{
+		cout<<new_array[i][0];
+		for(j=1;j<3;j++)
+		{
+			//cout<<"!"<<endl;
+			cout<<" "<<new_array[i][j];
+		}
+		cout<<endl;
+	}
+} 
+/*
+2 18270477699
+1 10149800116
+0 19906559817
+1 16209018105
+1 16804212234
+2 19289130583
+1 17982711123
+0 10897630486
+1 11860787674
+0 15192777554
+
+/*
+//魔法机序列
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct
+{
+	int data[100];
+	int top;
+}sqstack,*sqslink;
+int push(sqslink s,int x,int maxsize)
+{
+	if(s->top>=maxsize-1) return 0;
+	else
+	{
+		s->top++;
+		s->data[s->top]=x;
+		return 1;
+	}
+}
+int pop(sqslink s)
+{
+	if(s->top<0) return 0;
+	else
+	{
+		s->top--;
+		return s->data[s->top+1];
+	}
+}
+int main()
+{
+	int n,i,j,m;
+	m=0;
+	cin>>n;
+	int x[100];
+	for(i=0;i<n;i++)
+	{
+		cin>>x[i];
+	}
+	sqslink s=(sqslink)malloc(sizeof(sqstack));
+	s->top=-1;   //非常重要！清空栈！ 
+	for(i=1;i<=n;i++)
+	{
+		push(s,i,n);
+		while(s->top>=0)
+		{
+			if(s->data[s->top]==x[m])
+			{
+				pop(s);
+				m++;
+			}
+			else break;
+		}		
+	}
+	if(s->top<0) cout<<"YES";
+	else cout<<"NO";
+}
+*/
+/*
+//回文判断
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct 
+{
+	char data[20];
+	int top;
+}sqstack,*sqslink;
+int push(sqslink s,char c)
+{
+	s->top++;
+	s->data[s->top]=c;
+	return 1;
+}
+char pop(sqslink s)
+{
+	if(s->top<0) return 'f';
+	else
+	{
+		s->top--;
+		return s->data[s->top+1];
+	}
+}
+int main()
+{
+	int flag=1;
+	char t1,t2,q;
+	sqslink s1=(sqslink)malloc(sizeof(sqstack));
+	sqslink s2=(sqslink)malloc(sizeof(sqstack));
+	sqslink s3=(sqslink)malloc(sizeof(sqstack));
+	s1->top=-1;
+	s2->top=-1;
+	s3->top=-1;
+	char c;
+	cin>>c;
+	while(c!='@')
+	{
+		push(s1,c);
+		push(s3,c);
+		cin>>c;
+	}
+	while(s1->top>=0)
+	{
+		q=pop(s1);
+		push(s2,q);
+	}
+	while(s2->top>=0)
+	{
+		t1=pop(s2);
+		t2=pop(s3);
+		if(t1!=t2)
+		{
+			cout<<"false";
+			flag=0;
+			return 1;
+		}
+	}
+	if(flag==1) cout<<"true";
+}
+*/
+//幻方矩阵
+/*
+//Edition 1 ：内存不够，运行超时 ！ 
+#include<iostream>
+using namespace std;
+void change_row(int** array,int n,int m,int h1,int h2)
+{
+	int i;
+	for(i=0;i<m;i++)
+	{
+		swap(array[h1-1][i],array[h2-1][i]);
+	}
+	return; 
+}
+void change_col(int** array,int n,int m,int l1,int l2)
+{
+	int i;
+	for(i=0;i<n;i++)
+	{
+		swap(array[i][l1-1],array[i][l2-1]);
+	}
+	return;
+} 
+int main()
+{
+	int n,m,i,j;
+	i=j=0;
+	cin>>n>>m;
+	int** array;
+	array=new int*[n];
+	for(i=0;i<n;i++)
+	{
+		array[i]=new int[m];
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			cin>>array[i][j];
+		}
+	}
+	int op,x,y,z;
+	cin>>op;
+	for(i=0;i<op;i++)
+	{
+		cin>>x>>y>>z;
+		if(x==0)
+			change_row(array,n,m,y,z);
+		else if(x==1)
+			change_col(array,n,m,y,z);
+	}
+	for(i=0;i<n;i++)
+	{
+		cout<<array[i][0];
+		for(j=1;j<m;j++)
+		{
+			cout<<" "<<array[i][j];
+		} 
+		cout<<endl;
+	}
+} 
+//Edition 2 
+//关键：vector代替数组，交换行列序号而非实际的值 
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	int n,m,op,x,y,z;
+	cin>>n>>m;
+	vector <int> p[10001];
+	int h[10001];
+	int l[10001];
+	int i,j,a;
+	for(i=1;i<=n;i++)
+	{
+		h[i]=i;
+		p[i].push_back(0);   //必须加上！ 
+		for(j=1;j<=m;j++)
+		{
+			cin>>a;
+			p[i].push_back(a);
+			l[j]=j;
+		}
+	} 
+	cin>>op;
+	while(op--)
+	{
+		cin>>x>>y>>z;
+		if(x) swap(l[y],l[z]);
+		else swap(h[y],h[z]);
+		//cout<<"?"<<endl;
+		cout<<h[1]<<" "<<h[2]<<" "<<h[3]<<" "<<l[1]<<" "<<l[2]<<endl;
+	}
+	for(i=1;i<=n;i++)
+	{
+		cout<<p[h[i]][l[1]];
+		for(j=2;j<=m;j++)
+		{
+			cout<<" "<<p[h[i]][l[j]];
+		} 
+		cout<<endl;
+	}
+}
+*/
+/* 
+//堆积木
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	int n,m,i,j;
+	cin>>n>>m;
+	vector <int> array[10001];
+	for(i=0;i<=n;i++)
+	{
+	 	array[i].push_back(i);	
+	}
+	for(i=0;i<m;i++)
+	{
+		int a,b;
+		cin>>a>>b;
+		if(array[b].empty()||a==b)
+		continue;
+		else
+		{
+			for(j=0;j<array[b].size();j++)
+			{
+				array[a].push_back(array[b][j]);
+			}
+			array[b].clear();
+			vector<int>().swap(array[b]);    //清空内存 
+		}
+	}
+	for(i=1;i<=n;i++) 
+	{
+		if(array[i].empty())
+		cout<<endl;
+		else
+		{
+			for(j=0;j<array[i].size();j++)
+			{
+				if(j==array[i].size()-1)
+				cout<<array[i][j]<<endl;
+				else
+				cout<<array[i][j]<<" ";
+			}
+		}
+	}
+} 
+*/ 
+/*
+//神奇的二叉树
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+using namespace std;
+typedef struct Node
+{
+	Node* lchild;
+	Node* rchild;
+	char data; 
+}node;
+Node* init(char c)
+{
+	Node* node=(Node*)malloc(sizeof(Node));
+	node->lchild=NULL;
+	node->rchild=NULL;
+	node->data=c;
+	//补上！否则栈溢出？非法指针访问？ 
+	return node; 
+}
+//Node* binarytree(char*preorder,char*midorder,int len)
+Node* binarytree(char preorder[],char midorder[],int len)
+{
+	Node*p=init(preorder[0]);
+	int pos=strchr(midorder,preorder[0])-midorder;
+	if(pos>0)
+	{
+		p->lchild=binarytree(preorder+1,midorder,pos);
+	}
+	if(pos<len-1)
+	{
+		//p->rchild=binarytree(preorder-pos-1,midorder-pos-1,len-pos-1);
+		p->rchild=binarytree(preorder+pos+1,midorder+pos+1,len-pos-1);
+	}
+	return p;
+}
+void postorder(Node* p)
+{
+	if(p->lchild!=NULL)
+		postorder(p->lchild);
+	if(p->rchild!=NULL)
+		postorder(p->rchild);
+	cout<<p->data;
+}
+void mirror(Node* p)
+{
+	if(p->rchild!=NULL)
+		//postorder(p->rchild);
+		mirror(p->rchild);
+	if(p->lchild!=NULL)
+		//postorder(p->lchild);
+		mirror(p->lchild);
+	cout<<p->data;
+}
+int main() 
+{
+	char preorder[60];
+	char midorder[60];
+	gets(preorder);
+	gets(midorder);
+	Node* p=binarytree(preorder,midorder,strlen(preorder));
+	postorder(p);
+	cout<<endl;
+	mirror(p);
+}
+*/
+//根据三元组数列建立二叉链表/
+//用到队列 
+#include<iostream>
+#include<string.h>
+#include<stdlib.h> 
+#include<queue>
+using namespace std;
+typedef struct Node
+{
+	Node* lchild;
+	Node* rchild;
+	char data;
+}node;
+Node* init(char c)
+{
+	Node* p=(Node*)malloc(sizeof(Node));
+	p->lchild=p->rchild=NULL;
+	p->data=c;
+	return p;
+}
+Node* CreateTree(Node* &t)
+{
+	char a,b,c;
+	queue<Node*> q;
+	Node* tree;
+	Node* node;
+	cin>>a>>b>>c;
+	if(a=='^'&&b!='^')
+	{
+		tree=init(b);
+		t=tree;
+		q.push(t);
+		cin>>a>>b>>c;
+	}
+	while(!q.empty()&&a!='^'&&b!='^')
+	{
+		Node* p=q.front();
+		q.pop();
+		//node=init(b);
+		while(a==p->data)
+		{
+			node=init(b);
+			if(c=='L')
+			{
+				p->lchild=node;
+			}
+			else if(c=='R')
+			{
+				p->rchild=node;
+			}	
+			q.push(node);
+			cin>>a>>b>>c;
+		}
+	}
+}
+void preorder(Node* &t)
+{
+	if(t)
+	{
+		cout<<t->data;
+		if(t->lchild!=NULL)
+		{
+			cout<<"(";
+			preorder(t->lchild);
+			//cout<<",";
+		}
+		if(t->lchild==NULL&&t->rchild!=NULL)
+		{
+			cout<<"("; 
+		}
+		if(t->rchild!=NULL)
+		{
+			cout<<","; 
+			preorder(t->rchild);
+			cout<<")";
+		}
+		if(t->rchild==NULL&&t->lchild!=NULL)
+		{
+			cout<<")";
+		}
+	}
+}
+int main()
+{
+	Node* tree=NULL;
+	CreateTree(tree);
+	preorder(tree);
+} 
