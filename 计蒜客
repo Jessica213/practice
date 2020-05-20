@@ -1,5 +1,5 @@
 /* 
-//线性表第k位调序 
+//线性表第k位调序================================================================ 
 #include<iostream>
 using namespace std;
 int main() 
@@ -83,7 +83,7 @@ int main()
 }
 */
 /*
-//单向链表转双向 
+//单向链表转双向 ===========================================================================
 #include<iostream>
 #include<cstdlib>
 using namespace std;
@@ -133,7 +133,7 @@ int main()
 } 
 */
 /*
-//投简历之谁是最优秀的人 
+//投简历之谁是最优秀的人================================================================================ 
 #include<iostream>
 #include<cstdlib>
 using namespace std;
@@ -191,7 +191,7 @@ int main()
 }
 */
 /*
-//电话记录
+//电话记录============================================================================================
 #include<iostream>
 #include<cstring>
 using namespace std;
@@ -258,7 +258,7 @@ int main()
 0 15192777554
 
 /*
-//魔法机序列
+//魔法机序列===========================================================================================
 #include<iostream>
 #include<cstdlib>
 using namespace std;
@@ -316,7 +316,7 @@ int main()
 }
 */
 /*
-//回文判断
+//回文判断=====================================================================================
 #include<iostream>
 #include<cstdlib>
 using namespace std;
@@ -377,7 +377,7 @@ int main()
 	if(flag==1) cout<<"true";
 }
 */
-//幻方矩阵
+//幻方矩阵===========================================================================================
 /*
 //Edition 1 ：内存不够，运行超时 ！ 
 #include<iostream>
@@ -483,7 +483,7 @@ int main()
 }
 */
 /* 
-//堆积木
+//堆积木==================================================================================================
 #include<iostream>
 #include<vector>
 using namespace std;
@@ -530,7 +530,7 @@ int main()
 } 
 */ 
 /*
-//神奇的二叉树
+//神奇的二叉树================================================================================================
 #include<iostream>
 #include<string.h>
 #include<stdio.h>
@@ -597,7 +597,7 @@ int main()
 	mirror(p);
 }
 */
-//根据三元组数列建立二叉链表/
+//根据三元组数列建立二叉链表============================================================================================
 //用到队列 
 #include<iostream>
 #include<string.h>
@@ -684,4 +684,202 @@ int main()
 	Node* tree=NULL;
 	CreateTree(tree);
 	preorder(tree);
+} 
+//互粉攻略==================================================================================================
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n,m,a,b;
+	int in[1001]={0},out[1001]={0};
+	bool judge[1001][1001];   //做标记，防止记录重复 
+	cin>>n>>m;
+	while(m--)
+	{
+		cin>>a>>b;
+		if(!judge[a][b])
+		{
+			judge[a][b]=true;
+			out[a]++;
+			in[b]++;
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		cout<<in[i]-out[i]<<endl;
+	}
+} 
+*/
+/*
+//最短路简化版===================================================================================================
+//BFS广度优先搜索（队列实现），图用vector，最短路径用数组
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<cstring> 
+using namespace std;
+vector <int> graph[1001];
+int dist[1001];
+int bfs(int c)
+{
+	queue <int> q;
+	int temp;
+	q.push(c);
+	dist[c]=0;
+	while(!q.empty())
+	{
+		temp=q.front();
+		q.pop();
+		for(int i=0;i<graph[temp].size();i++)
+		{
+			if(dist[graph[temp][i]]==-1)
+			{
+				q.push(graph[temp][i]);
+				dist[graph[temp][i]]=dist[temp]+1;
+			}
+		}
+	} 
+} 
+int main() 
+{
+	memset(dist,-1,sizeof(dist));   //初始化 
+	int n,m,c,i,a,b;
+	cin>>n>>m>>c;
+	for(i=0;i<m;i++)
+	{
+		cin>>a>>b;
+		graph[a].push_back(b);
+		graph[b].push_back(a);
+	}
+	bfs(c);
+	for(i=1;i<=n;i++)
+	{
+		cout<<dist[i]<<endl;
+	}
+}
+*/
+//修复公路===========================================================================================================
+//带权最短路径，最小生成树MST
+//Kruscal算法 
+/*
+设无向连通网G=(V, R), 所求MST=(U, TR)
+1) 令MST包含G中所有顶点，边集为空，即U = V, TR=Φ; 
+2) 将G中所有的边按权值从小到大排序；
+3) 依次考察排序后的各边(u, v), 若(u, v)加入MST后不会形成回路, 则将其加入, 否则舍去。直到边数=n-1;
+####################################################
+如何判断所选的边加入后是否形成回路？
+方法：用集合
+1.初始时设置n个集合，每个顶点各自属于1个集合；
+2.若将边(u, v)加入MST，则将u、v所属集合合并为1个；
+3.若u、v已在同一个集合，则说明u、v已被选出的边连通了，若加入边(u, v)就会形成回路。
+*/
+/*
+//c++中的algorithm库，包含了所有vector、list、set、map操作能想到的一些函数，如查找，替换、排序、计数等常用的功能全部在里面
+#include<iostream>
+#include<vector>
+#include<set>
+#include<algorithm>
+using namespace std;
+int root[100001];
+struct graph
+{
+	int x;
+	int y;
+	int cost;
+};
+bool comp(graph g1,graph g2)
+{
+	if(g1.cost<g2.cost)
+	return true;
+	else 
+	return false;
+}
+int getroot(int i)
+{
+	if(root[i]==-1)
+	return i;
+	else
+	{
+		int t=getroot(root[i]);
+		root[i]=t;  //！！！ 
+		return t;
+	}
+}
+int main()
+{
+	int n,m,i,max;
+	vector<graph>v1;
+	vector<graph>v2;
+	cin>>n>>m;
+	for(i=0;i<n;i++)
+	{
+		root[i]=-1;
+	}
+	for(i=0;i<m;i++)
+	{
+		graph ph;
+		cin>>ph.x>>ph.y>>ph.cost;
+		v1.push_back(ph);
+	}
+	//sort(v1.begin(),v1.end());
+	sort(v1.begin(),v1.end(),comp);
+	//std::vector::iterator ite=v1.iterator();
+	vector<graph>::iterator ite=v1.begin();   //迭代器 
+	//while(!ite)
+	while(ite!=v1.end())
+	{
+		//if(getroot(ite.x)!=getroot(ite.y))
+		if(getroot(ite->x)!=getroot(ite->y))
+		{
+			int a=getroot(ite->x);
+			int b=getroot(ite->y);
+			root[a]=b;
+			v2.push_back(*ite);
+			v1.erase(ite);
+		}
+		else
+		ite++;
+		if(v2.size()==n-1)
+		break;
+	}
+	if(v2.size()==n-1)
+	{
+		for(i=0;i<v2.size();i++)
+		{
+			max=0;
+			if(v2[i].cost>max)
+			max=v2[i].cost;
+		}
+	}
+	if(v2.size()==n-1)
+	cout<<max;
+	else
+	cout<<-1<<endl;
+}
+*/
+//两数之和=============================================================================================================
+#include<iostream>
+using namespace std;
+int main()
+{
+	int m,n,i,j;
+	int flag=1;
+	cin>>m;
+	int* array=new int[m];
+	for(i=0;i<m;i++)
+	{
+		cin>>array[i];
+	}
+	cin>>n;
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(array[i]+array[j]==n&&flag)
+			{
+				cout<<i+1<<" "<<j+1<<endl;
+				flag=0;
+			}
+		}
+	}
 } 
