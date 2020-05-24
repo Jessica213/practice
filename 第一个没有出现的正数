@@ -1,0 +1,39 @@
+给定一个具有 nn 个元素的数组 AA，请找出数组中第一个没出现的正数。
+
+例如：
+
+给定[1,2,0]，则返回 3。
+
+给定[3,4,-1,1]，则返回 2。
+
+注意：
+
+算法需要 O(n) 的时间复杂度以及线性的空间复杂度。
+
+输入格式
+第一行输入整数 n(n≤10^6)，接下来一行输入数组A[n]。
+
+输出格式
+输出第一个没出现的正数。
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n,temp,i;
+	cin>>n;
+	int flag[1000001]={0};   //很巧妙的做法
+	for(i=0;i<n;i++)
+	{
+		cin>>temp;
+		if(temp>0) flag[temp]=1;
+	}
+	for(i=1;i<=n;i++)
+	{
+		if(flag[i]==0)
+		{
+			cout<<i;
+			break;
+		}
+	}
+}
