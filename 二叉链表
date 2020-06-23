@@ -1,0 +1,87 @@
+//用到队列 
+#include<iostream>
+#include<string.h>
+#include<stdlib.h> 
+#include<queue>
+using namespace std;
+typedef struct Node
+{
+	Node* lchild;
+	Node* rchild;
+	char data;
+}node;
+Node* init(char c)
+{
+	Node* p=(Node*)malloc(sizeof(Node));
+	p->lchild=p->rchild=NULL;
+	p->data=c;
+	return p;
+}
+Node* CreateTree(Node* &t)
+{
+	char a,b,c;
+	queue<Node*> q;
+	Node* tree;
+	Node* node;
+	cin>>a>>b>>c;
+	if(a=='^'&&b!='^')
+	{
+		tree=init(b);
+		t=tree;
+		q.push(t);
+		cin>>a>>b>>c;
+	}
+	while(!q.empty()&&a!='^'&&b!='^')
+	{
+		Node* p=q.front();
+		q.pop();
+		//node=init(b);
+		while(a==p->data)
+		{
+			node=init(b);
+			if(c=='L')
+			{
+				p->lchild=node;
+			}
+			else if(c=='R')
+			{
+				p->rchild=node;
+			}	
+			q.push(node);
+			cin>>a>>b>>c;
+		}
+	}
+}
+void preorder(Node* &t)
+{
+	if(t)
+	{
+		cout<<t->data;
+		if(t->lchild!=NULL)
+		{
+			cout<<"(";
+			preorder(t->lchild);
+			//cout<<",";
+		}
+		if(t->lchild==NULL&&t->rchild!=NULL)
+		{
+			cout<<"("; 
+		}
+		if(t->rchild!=NULL)
+		{
+			cout<<","; 
+			preorder(t->rchild);
+			cout<<")";
+		}
+		if(t->rchild==NULL&&t->lchild!=NULL)
+		{
+			cout<<")";
+		}
+	}
+}
+int main()
+{
+	Node* tree=NULL;
+	CreateTree(tree);
+	preorder(tree);
+} 
