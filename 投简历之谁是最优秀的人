@@ -1,0 +1,57 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct node
+{
+	int data;
+	node* next;
+}list,*link;
+//创建单向链表 
+link Createlist(int n)
+{
+	link h,r,p;
+	int i;
+	h=(link)malloc(sizeof(list));
+	r=h;
+	for(i=0;i<n;i++)
+	{
+		p=(link)malloc(sizeof(list));
+		p->data=i+1;
+		r->next=p;
+		r=p;
+	}
+	r->next=NULL;
+	return h;
+}
+//删除链表某个节点 
+void Deletepoint(link p,int m)
+{
+	int i;
+	link pp;
+	for(i=0;i<m;i++)
+	{
+		pp=p;
+		p=p->next;
+	}
+	pp->next=p->next;
+	free(p);
+}
+int main()
+{
+	int N,M;
+	int i;
+	cin>>N;
+	link p=Createlist(N);
+	cin>>M;
+	int*a=new int[M];
+	for(i=0;i<M;i++)
+	{
+		cin>>a[i];
+		Deletepoint(p,a[i]);
+	}
+	for(i=0;i<(N-M+1)/2;i++)
+	{
+		p=p->next;
+	}
+	cout<<p->data;
+}
