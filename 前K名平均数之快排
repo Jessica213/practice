@@ -1,0 +1,69 @@
+/*
+小蒜的老师希望知道班上的信息学尖子生的水平如何。老师请小蒜同学帮忙算出班上信息学成绩前 K 名的平均成绩。
+输入格式
+输入共有三行：
+第一行：为小蒜所在班级的人数 N（其中1≤N≤30）；
+第二行：为 N 个用 1 个空格隔开的信息学分数（其中分数为 700及以内正整数）；
+第三行：老师想计算平均数的尖子生人数 K。
+输出格式
+输出一行共一个实数，为信息学分数前 K 名同学的分数平均数。四舍五入保留两位小数。
+*/ 
+#include<iostream>
+#include<iomanip>
+using namespace std;
+//快排
+/*
+快速排序使用分治法来把一个串（list）分为两个子串（sub-lists）。具体算法描述如下：
+从数列中挑出一个元素，称为 “基准”（base）；
+重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。
+在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；
+递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。
+*/ 
+void QS(int a[],int low,int high)
+{
+	if(low>=high) return;
+	int i=low;
+	int j=high+1;
+	int base=a[low];
+	while(1)
+	{
+		//while(a[++i]>base)
+		while(a[++i]<base)
+		{
+			if(i==high) break; 
+		}
+		//while(a[--j]<base)
+		while(a[--j]>base)
+		{
+			if(j==low) break;
+		}
+		if(i>=j) break;
+		int temp=a[i];
+		a[i]=a[j];
+		a[j]=temp;
+	}
+	int t=a[j];
+	a[j]=a[low];
+	a[low]=t;
+	QS(a,low,j-1);
+	QS(a,j+1,high);   //递归 
+}
+int main()
+{
+	int n,k,i;
+	double sum=0;
+	cin>>n;
+	int* a=new int[n];
+	for(i=0;i<n;i++)
+	{
+		cin>>a[i];
+	}
+	cin>>k;
+	QS(a,0,n-1);   //成绩从小到大排序 
+	for(i=n-1;i>=n-k;i--)
+	{
+		sum+=a[i]; 
+	}
+    double result=sum/k;
+	cout<<setiosflags(ios::fixed)<<setprecision(2)<<result<<endl;
+} 
