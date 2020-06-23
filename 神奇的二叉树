@@ -1,0 +1,65 @@
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+using namespace std;
+typedef struct Node
+{
+	Node* lchild;
+	Node* rchild;
+	char data; 
+}node;
+Node* init(char c)
+{
+	Node* node=(Node*)malloc(sizeof(Node));
+	node->lchild=NULL;
+	node->rchild=NULL;
+	node->data=c;
+	//补上！否则栈溢出？非法指针访问？ 
+	return node; 
+}
+//Node* binarytree(char*preorder,char*midorder,int len)
+Node* binarytree(char preorder[],char midorder[],int len)
+{
+	Node*p=init(preorder[0]);
+	int pos=strchr(midorder,preorder[0])-midorder;
+	if(pos>0)
+	{
+		p->lchild=binarytree(preorder+1,midorder,pos);
+	}
+	if(pos<len-1)
+	{
+		//p->rchild=binarytree(preorder-pos-1,midorder-pos-1,len-pos-1);
+		p->rchild=binarytree(preorder+pos+1,midorder+pos+1,len-pos-1);
+	}
+	return p;
+}
+void postorder(Node* p)
+{
+	if(p->lchild!=NULL)
+		postorder(p->lchild);
+	if(p->rchild!=NULL)
+		postorder(p->rchild);
+	cout<<p->data;
+}
+void mirror(Node* p)
+{
+	if(p->rchild!=NULL)
+		//postorder(p->rchild);
+		mirror(p->rchild);
+	if(p->lchild!=NULL)
+		//postorder(p->lchild);
+		mirror(p->lchild);
+	cout<<p->data;
+}
+int main() 
+{
+	char preorder[60];
+	char midorder[60];
+	gets(preorder);
+	gets(midorder);
+	Node* p=binarytree(preorder,midorder,strlen(preorder));
+	postorder(p);
+	cout<<endl;
+	mirror(p);
+}
