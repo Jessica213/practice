@@ -1,0 +1,97 @@
+//带权最短路径，最小生成树MST
+//Kruscal算法 
+/*
+设无向连通网G=(V, R), 所求MST=(U, TR)
+1) 令MST包含G中所有顶点，边集为空，即U = V, TR=Φ; 
+2) 将G中所有的边按权值从小到大排序；
+3) 依次考察排序后的各边(u, v), 若(u, v)加入MST后不会形成回路, 则将其加入, 否则舍去。直到边数=n-1;
+####################################################
+如何判断所选的边加入后是否形成回路？
+方法：用集合
+1.初始时设置n个集合，每个顶点各自属于1个集合；
+2.若将边(u, v)加入MST，则将u、v所属集合合并为1个；
+3.若u、v已在同一个集合，则说明u、v已被选出的边连通了，若加入边(u, v)就会形成回路。
+*/
+
+//c++中的algorithm库，包含了所有vector、list、set、map操作能想到的一些函数，如查找，替换、排序、计数等常用的功能全部在里面
+#include<iostream>
+#include<vector>
+#include<set>
+#include<algorithm>
+using namespace std;
+int root[100001];
+struct graph
+{
+	int x;
+	int y;
+	int cost;
+};
+bool comp(graph g1,graph g2)
+{
+	if(g1.cost<g2.cost)
+	return true;
+	else 
+	return false;
+}
+int getroot(int i)
+{
+	if(root[i]==-1)
+	return i;
+	else
+	{
+		int t=getroot(root[i]);
+		root[i]=t;  //！！！ 
+		return t;
+	}
+}
+int main()
+{
+	int n,m,i,max;
+	vector<graph>v1;
+	vector<graph>v2;
+	cin>>n>>m;
+	for(i=0;i<n;i++)
+	{
+		root[i]=-1;
+	}
+	for(i=0;i<m;i++)
+	{
+		graph ph;
+		cin>>ph.x>>ph.y>>ph.cost;
+		v1.push_back(ph);
+	}
+	//sort(v1.begin(),v1.end());
+	sort(v1.begin(),v1.end(),comp);
+	//std::vector::iterator ite=v1.iterator();
+	vector<graph>::iterator ite=v1.begin();   //迭代器 
+	//while(!ite)
+	while(ite!=v1.end())
+	{
+		//if(getroot(ite.x)!=getroot(ite.y))
+		if(getroot(ite->x)!=getroot(ite->y))
+		{
+			int a=getroot(ite->x);
+			int b=getroot(ite->y);
+			root[a]=b;
+			v2.push_back(*ite);
+			v1.erase(ite);
+		}
+		else
+		ite++;
+		if(v2.size()==n-1)
+		break;
+	}
+	if(v2.size()==n-1)
+	{
+		for(i=0;i<v2.size();i++)
+		{
+			max=0;
+			if(v2[i].cost>max)
+			max=v2[i].cost;
+		}
+	}
+	if(v2.size()==n-1)
+	cout<<max;
+	else
+	cout<<-1<<endl;
+}
