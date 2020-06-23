@@ -1,0 +1,117 @@
+//错误版本——运行超时 
+/*
+#include<iostream>
+#include<cstring>
+#include<vector>
+using namespace std;
+int main()
+{
+	int n,i,j,flag;
+	flag=1;
+	cin>>n;
+	vector <string> s(20000);
+	//string* s=new string[n];
+	for(i=0;i<n;i++)
+	{
+		cin>>s[i];
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<s[i].length();j++)
+		{
+			if(s[i][j]>='A'&&s[i][j]<='Z')
+			{
+				s[i][j]=char(s[i][j]+32);
+			}
+		}
+	}
+	cout<<"No"<<endl;
+	for(i=1;i<n;i++)
+	{
+		flag=1;
+		for(j=0;j<i;j++)
+		{
+			if(s[i]==s[j])
+			{
+				cout<<"Yes"<<endl;
+				flag=0;
+				break;
+			}
+		}
+		if(flag) 
+		cout<<"No"<<endl;
+	}
+}
+*/ 
+//改进版本——根据用户名长度筛去不必要的比较 ，建立一个链表数组 
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int order;    //位置 
+	string name;
+	node*next;
+};
+int main()
+{
+	int n,i;
+	cin>>n;
+	string* s=new string[n];
+	string* k=new string[n];
+	//node* p=new node[101];
+	node* p[101];
+	for(i=1;i<=100;i++)
+	{
+		p[i]=NULL;   //数组初始化
+	}
+	//把名字放入数组相应位置 
+	for(i=0;i<n;i++)
+	{
+		cin>>s[i]; 
+		//transform(s[i].begin(),s[i].end(),s[i].begin(),tolower);
+		transform(s[i].begin(),s[i].end(),s[i].begin(),::tolower);
+		//node* t;
+		node* t=new node;
+		t->order=i;
+		t->name=s[i];
+		if(p[s[i].size()]==NULL)
+		{
+			//p[i]=t;
+			p[s[i].size()]=t;
+			t->next=NULL;
+		}
+		else 
+		{
+			t->next=p[s[i].size()];   //将长度相同的名字插到表头
+			p[s[i].size()]=t;   //更新表头； 
+		}
+	}
+	//判断之前有无相同名字 
+	for(i=1;i<=100;i++)   //每组（同一种长度）名字都要查找 
+	{
+		node* temp=p[i];
+		while(temp)
+		{
+			string str=temp->name;
+			node* heap=temp->next;
+			while(heap)
+			{
+				if(heap->name==str)
+				{
+					k[temp->order]="Yes";
+					break;
+				}
+				heap=heap->next;   //该名字前面的每一个都要查找并比对 
+			}
+			if(k[temp->order]!="Yes")
+				k[temp->order]="No";
+			temp=temp->next;    //每组中的每一个名字都要和前面的进行比对 
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		cout<<k[i]<<endl;
+	}
+}
