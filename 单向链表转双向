@@ -1,0 +1,48 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+//链表节点 
+typedef struct node
+	{
+		int data;
+		node* prior;
+		node* next;
+	}list2,*link;
+//双向链表 
+link Createlist2(int n)
+{
+	int i=0;
+	link h,p,r;
+	//h->data=0;
+	h=(link)malloc(sizeof(list2)); 
+	r=h;    //头尾相接 ——空链表 
+	for(i=0;i<n;i++)
+	{
+		p=(link)malloc(sizeof(list2));
+		cin>>p->data;
+		p->prior=r;
+		r->next=p;
+		r=p;     //新节点链在表尾后面，成为新的表尾 
+	}
+	r->next=h->next;
+	h->next->prior=r;   //变成双向 
+	return h;
+}
+int main()
+{
+	int l,m,i,j;
+	link p;
+	cin>>l;
+	p=Createlist2(l);
+	cin>>m;
+	while(p->data!=m)
+	{
+		p=p->next;
+	}
+	cout<<p->data;
+	for(j=1;j<l;j++)
+	{
+		p=p->prior;
+		cout<<" "<<p->data;
+	}
+} 
