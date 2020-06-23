@@ -1,0 +1,104 @@
+//幻方矩阵---------------------------------------------------------------------
+/* 
+//Edition 1 ：内存不够，运行超时 ！ 
+#include<iostream>
+using namespace std;
+void change_row(int** array,int n,int m,int h1,int h2)
+{
+	int i;
+	for(i=0;i<m;i++)
+	{
+		swap(array[h1-1][i],array[h2-1][i]);
+	}
+	return; 
+}
+void change_col(int** array,int n,int m,int l1,int l2)
+{
+	int i;
+	for(i=0;i<n;i++)
+	{
+		swap(array[i][l1-1],array[i][l2-1]);
+	}
+	return;
+} 
+int main()
+{
+	int n,m,i,j;
+	i=j=0;
+	cin>>n>>m;
+	int** array;
+	array=new int*[n];
+	for(i=0;i<n;i++)
+	{
+		array[i]=new int[m];
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			cin>>array[i][j];
+		}
+	}
+	int op,x,y,z;
+	cin>>op;
+	for(i=0;i<op;i++)
+	{
+		cin>>x>>y>>z;
+		if(x==0)
+			change_row(array,n,m,y,z);
+		else if(x==1)
+			change_col(array,n,m,y,z);
+	}
+	for(i=0;i<n;i++)
+	{
+		cout<<array[i][0];
+		for(j=1;j<m;j++)
+		{
+			cout<<" "<<array[i][j];
+		} 
+		cout<<endl;
+	}
+} 
+*/ 
+//Edition 2 
+//关键：vector代替数组，交换行列序号而非实际的值 
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	int n,m,op,x,y,z;
+	cin>>n>>m;
+	vector <int> p[10001];
+	int h[10001];
+	int l[10001];
+	int i,j,a;
+	for(i=1;i<=n;i++)
+	{
+		h[i]=i;
+		p[i].push_back(0);   //必须加上！ 
+		for(j=1;j<=m;j++)
+		{
+			cin>>a;
+			p[i].push_back(a);
+			l[j]=j;
+		}
+	} 
+	cin>>op;
+	while(op--)
+	{
+		cin>>x>>y>>z;
+		if(x) swap(l[y],l[z]);    //交换列 
+		else swap(h[y],h[z]);      //交换行 
+		cout<<h[1]<<" "<<h[2]<<" "<<h[3]<<" "<<l[1]<<" "<<l[2]<<endl;
+	}
+	for(i=1;i<=n;i++)
+	{
+		cout<<p[h[i]][l[1]];
+		for(j=2;j<=m;j++)
+		{
+			cout<<" "<<p[h[i]][l[j]];
+		} 
+		cout<<endl;
+	}
+}
