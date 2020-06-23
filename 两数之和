@@ -1,0 +1,38 @@
+/*
+给定一个数组，找到两个数，使得他们的和为一个给定的数值target。
+函数twoSum返回两个数字index1,index2，
+其中：number[index1] + number[index2]==target;
+注意：index1必须小于index2且不能为0假设每一组输入只有唯一的一组解。
+格式：第一行输入一个数n，接下来的两行分别输入数组number[n]和target，返回index1和index2.
+例如：
+Input:
+numbers={2, 7, 11, 15},
+target=9
+Output:
+index1=1, index2=2
+*/ 
+#include<iostream>
+using namespace std;
+int main()
+{
+	int m,n,i,j;
+	int flag=1;
+	cin>>m;
+	int* array=new int[m];
+	for(i=0;i<m;i++)
+	{
+		cin>>array[i];
+	}
+	cin>>n;
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<m;j++)
+		{
+			if(array[i]+array[j]==n&&flag)
+			{
+				cout<<i+1<<" "<<j+1<<endl;
+				flag=0;
+			}
+		}
+	}
+} 
