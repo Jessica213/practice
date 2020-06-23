@@ -1,0 +1,59 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+typedef struct 
+{
+	char data[20];
+	int top;
+}sqstack,*sqslink;
+int push(sqslink s,char c)
+{
+	s->top++;
+	s->data[s->top]=c;
+	return 1;
+}
+char pop(sqslink s)
+{
+	if(s->top<0) return 'f';
+	else
+	{
+		s->top--;
+		return s->data[s->top+1];
+	}
+}
+int main()
+{
+	int flag=1;
+	char t1,t2,q;
+	sqslink s1=(sqslink)malloc(sizeof(sqstack));
+	sqslink s2=(sqslink)malloc(sizeof(sqstack));
+	sqslink s3=(sqslink)malloc(sizeof(sqstack));
+	s1->top=-1;
+	s2->top=-1;
+	s3->top=-1;
+	char c;
+	cin>>c;
+	while(c!='@')
+	{
+		push(s1,c);
+		push(s3,c);
+		cin>>c;
+	}
+	while(s1->top>=0)
+	{
+		q=pop(s1);
+		push(s2,q);
+	}
+	while(s2->top>=0)
+	{
+		t1=pop(s2);
+		t2=pop(s3);
+		if(t1!=t2)
+		{
+			cout<<"false";
+			flag=0;
+			return 1;
+		}
+	}
+	if(flag==1) cout<<"true";   //s1颠倒后的s2与s3(s1)相同，证明s1回文 
+}
